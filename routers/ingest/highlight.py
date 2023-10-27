@@ -1,21 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException
-from .schemas import Quote, SourceType
+from fastapi import HTTPException, Depends
+from httpx import AsyncClient
+from .schemas import Highlight, SourceType
 
-from dependencies import get_token_header
-
-router = APIRouter(
-    prefix="/quotes",
-    tags=["quotes"],
-    dependencies=[],
-    responses={404: {"description": "Not found"}},
-)
+from .dependencies import router as ingest_router
+from dependencies import get_client
 
 
 '''
-add quote to db
-quote schema example:
+add highlight to db
+highlight schema example:
 {
-    "quote": "string", # required
+    "highlight": "string", # required
     "meta": {
         "source": {
             "url": "string", # optional
@@ -35,7 +30,7 @@ quote schema example:
                 "timestamp": "string"
             },
         }
-        "vector": [0.0, 0.0, 0.0, 0.0, 0.0], # required - vectorized quote  
+        "vector": [0.0, 0.0, 0.0, 0.0, 0.0], # required - vectorized highlight  
         "transformations": [
             {
                 "name": "string",
@@ -87,22 +82,22 @@ quote schema example:
     }
 }
 
-add quote processing:
-1. check if quote is already in db
-2. if not, add quote to db
-3. add vectorized quote to db
+add highlight processing:
+1. check if highlight is already in db
+2. if not, add highlight to db
+3. add vectorized highlight to db
 4. add specified transformations to db
 
 options for llm:
-- transform quote into a question
-- transform quote into tldr
-- transform quote into Q&A flashcard
-- transform quote into a picture
-- transform quote into a list of tags
+- transform highlight into a question
+- transform highlight into tldr
+- transform highlight into Q&A flashcard
+- transform highlight into a picture
+- transform highlight into a list of tags
 
-POST /quotes/quote - add quote to db
+POST /highlights/highlight - add highlight to db
 {
-    "quote": "string", # required
+    "highlight": "string", # required
     "transformations" : [
         "tldr",
         "question",
@@ -121,48 +116,57 @@ POST /quotes/quote - add quote to db
 '''
 
 
-@router.post("/quote")
-async def add_quote(quote: Quote):
-    processed_quote = {
-        "quote": quote.quote,
+@ingest_router.post("/highlight")
+async def add_highlight(highlight: Highlight, client: AsyncClient = Depends(get_client)):
+    processed_highlight = {
+        "highlight": highlight.highlight,
         "meta": {
-            "source": quote.source,
-            "transformations": quote.transformations
-        }
+            "source": highlight.source,
+            "transformations": highlight.transformations,
+            "margin_notes": highlight.margin_notes or []
+        },
+        "vector": highlight.vector or [0.0, 0.0, 0.0, 0.0, 0.0],
+        "published": highlight.published or False,
     }
-    # call each transformation endpoint and await response and add to quote
-    for idx, transformation in enumerate(quote.transformations):
+    # call each transformation endpoint and await response and add to highlight
+    for idx, transformation in enumerate(highlight.transformations):
         # replace name with call to transformation endpoint
-        quote.transformations[idx] = {
-            "endpoint": f"/transformations/{transformation}",
+        # check if endpoint is valid by calling it
+        # if invalid, raise error
+        res = await client.post(f"http://127.0.0.1:8000/transform/{transformation}", json={"text": highlight.highlight}, headers={"Content-Type": "application/json"})
+        if res.status_code != 200:
+            raise HTTPException(status_code=400, detail="Invalid transformation")
+        
+        print(res.json())
+    
+        highlight.transformations[idx] = {
+            "endpoint": f"/transform/{transformation}",
             "version-history": [
                 {
-                    "text": "string",
-                    "date": "Date"
+                    "text": res.json()["text"],
+                    "date": res.json()["date"]
                 }
             ],
             "name": f"{transformation}"
         }
 
-    if quote.source is not None:
-        
+    if highlight.source is not None:
         # check if source_type is valid
-        if quote.source.source_type not in SourceType:
+        if highlight.source.source_type not in SourceType:
             raise HTTPException(status_code=400, detail="Invalid source type")
-        if quote.source.source_type == SourceType.book:
-            if quote.source.book is None:
-                raise HTTPException(status_code=400, detail="Missing book details for book source type")
+        if highlight.source.source_type == SourceType.book:
+            if highlight.source.book is None:
+                raise HTTPException(
+                    status_code=400, detail="Missing book details for book source type")
             try:
-                book_data = quote.source.book.dict()
+                book_data = highlight.source.book.dict()
                 print(book_data)
                 # 'Source' object does not support item assignment
 
-                # processed_quote["meta"]["source"]["book"] = book_data 
+                # processed_highlight["meta"]["source"]["book"] = book_data
             except Exception as e:
                 print(e)
-                raise HTTPException(status_code=400, detail="Invalid book details for book source type")
-        
+                raise HTTPException(
+                    status_code=400, detail="Invalid book details for book source type")
 
-
-
-    return processed_quote
+    return processed_highlight
