@@ -21,6 +21,8 @@ class Video(BaseModel):
     title: str
     timestamp: str
 
+class Idea(BaseModel):
+    context: str
 
 class Source(BaseModel):
     url: str
@@ -28,6 +30,7 @@ class Source(BaseModel):
     book: Book = None 
     article: Article = None
     video: Video = None
+    idea: Idea = None
 
     # def __init__(self, **data: Any):
     #     super().__init__(**data)

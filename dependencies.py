@@ -4,6 +4,9 @@ from fastapi import Header, HTTPException
 from datetime import datetime
 
 
+def get_host():
+    return "http://127.0.0.1:8000"
+
 async def get_token_header(x_token: Annotated[str, Header(...)]):
     if x_token != "fake-super-secret-token":
         raise HTTPException(status_code=400, detail="X-Token header invalid")

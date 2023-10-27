@@ -25,6 +25,7 @@ commonplace api spec (commonplaceapi.dev)
 	- /to-book
 	- /poem
 	- /thesis
+	- /to-hard-copy-pdf (B + N book printing service)
 - /explore
 	- /wander
 	- /delve
