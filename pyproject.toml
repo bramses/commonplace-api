@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "commonplace-api"
+version = "0.1.0"
+description = "commonplace api"
+authors = ["Bram Adams <3282661+bramses@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "commonplace_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.104.0"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
