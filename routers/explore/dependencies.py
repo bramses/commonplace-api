@@ -6,3 +6,6 @@ router = APIRouter(
     dependencies=[],
     responses={404: {"description": "Not found"}},
 )
+
+def craft_sql_query_from_filters():
+    pass
