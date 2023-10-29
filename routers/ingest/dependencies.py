@@ -47,14 +47,14 @@ def convert_source_type_from_post_body(source_type, source_dict):
         return None
     
 def derive_source_type_from_source(source_dict):
-    source_types = []
+    source_type = None
     if source_dict.get("book", None) is not None:
-        source_types.append(SourceType.book)
+        source_type = (SourceType.book.value)
     if source_dict.get("article", None) is not None:
-        source_types.append(SourceType.article)
+        source_type = (SourceType.article.value)
     if source_dict.get("video", None) is not None:
-        source_types.append(SourceType.video)
+        source_type = (SourceType.video.value)
     if source_dict.get("idea", None) is not None:
-        source_types.append(SourceType.idea)
+        source_type = (SourceType.idea.value)
 
-    return source_types
+    return source_type

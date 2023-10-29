@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 from typing import Dict, List, Any, Optional
 from enum import Enum
 
@@ -30,11 +30,12 @@ class Idea(BaseModel):
     url: Optional[str] = None
 
 class Source(BaseModel):
-    source_types: List[str] = None
-    book: Optional[Book] = None 
+    category: str = None
+    book: Optional[Book] = None
     article: Optional[Article] = None
     video: Optional[Video] = None
     idea: Optional[Idea] = None
+
 
 class Transformations(BaseModel):
     # list of dicts with name, endpoint, version-history
@@ -43,7 +44,7 @@ class Transformations(BaseModel):
 class Highlight(BaseModel):
     highlight: str = Field(...,
                        example="The greatest use of a life is to spend it on something that will outlast it.")
-    source: Source = Field(None, example={"article": { "url": "https://www.brainyquote.com/quotes/william_james_101063", "author": "William James", "title": "William James - The greatest use of a life is to spend it...", "anchor": None}})
+    source: Source = Field(None, example={"article": { "url": "https://www.brainyquote.com/quotes/william_james_101063", "author": "William James", "title": "William James - The greatest use of a life is to spend it...", "anchor": None }})
     transformations: List[str] = Field(None, example=["tldr", "question", "image", "tags"])
     vector: List[float] = Field([0.0, 0.0, 0.0, 0.0, 0.0], example=[0.0, 0.0, 0.0, 0.0, 0.0])
     published: bool = Field(False, example=True)
