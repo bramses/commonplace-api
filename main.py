@@ -9,6 +9,8 @@ from routers.explore.dependencies import router as explore_router
 # idk why i need these imports but app breaks without them
 import routers.ingest.highlights
 import routers.transform.questions
+import routers.transform.tldr
+import routers.transform.image
 import routers.explore.highlights
 # end local imports
 

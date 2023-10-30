@@ -8,15 +8,11 @@ class TextModel(BaseModel):
     text: str
 
 
-@transform_router.post("/question")
+@transform_router.post("/tldr")
 async def transform_question(body: TextModel = Body(...)):
     text = body.text
+    prompt = "tldr to one or two sentences this: " + text
     # call GPT-4 chat endpoint and await response
-    prompt = f'''Generate a single question from this quote.
-The end user cannot see the quote so DO NOT use any abstract concepts like \"the speaker\" or \"the writer\" in your question. BE EXPLICIT. DO NOT ASSUME the reader has read the quote.
-DO NOT use passive voice and do not use passive pronouns like he/she/they/him/her etc.
-You can use any of who/what/where/when/why.
-Say nothing else.\n\nQuote:\n\n{text}\n\nQ:'''
     text = await chat_completion(prompt)
 
     print(text)

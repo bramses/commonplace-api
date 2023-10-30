@@ -8,6 +8,7 @@
 - [ ] Transformation
     - [ ] Mistral
     - [ ] GPT-4
+    - [ ] Transform an existing quote and cache it optionally also be able to edit the text in the transformation
     - [ ] A base schema for transformations to return
         Off the top of my head I'm thinking that most transformations will return text (or a url). But tags returns an array of strings...I could always just split the string on a delimiter and return an array of strings. I think that's the way to go.
         As long as it has a text representation, it can be transformed by a LLM.
