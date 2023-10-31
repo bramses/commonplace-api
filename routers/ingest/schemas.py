@@ -38,7 +38,7 @@ class Source(BaseModel):
 
 
 class Transformations(BaseModel):
-    # list of dicts with name, endpoint, version-history
+    # list of dicts with name, endpoint, version_history
     transformations: List[Dict[str, Any]]
 
 class Highlight(BaseModel):

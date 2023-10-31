@@ -21,10 +21,9 @@ client = httpx.AsyncClient()
 def get_client():
     return client
 
-now = datetime.now()
 
 def get_now():
-    return now
+    return datetime.now()
 
 def humanize_now():
-    return now.strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -74,7 +74,7 @@ async def process_transformation(idx, transformation, highlight, client):
     else:    
         return {
             "endpoint": f"/transform/{transformation}",
-            "version-history": [
+            "version_history": [
                 {
                     "text": res.json()["text"],
                     "created_at": res.json()["created_at"]

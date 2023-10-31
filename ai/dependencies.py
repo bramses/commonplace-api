@@ -16,7 +16,7 @@ dry_run = True
 
 async def chat_completion(prompt, model="gpt-3.5-turbo"):
     if dry_run:
-        # len of encode prompt * 0.0015 / 1K tokens
+        # len of encode prompt * 0.0015 / 1K tokens (3.5-turbo pricing)
         return f"~ ${str(len(enc.encode(prompt)) * (0.0015 / 1000))} USD"
     completion = openai.ChatCompletion.create(
     model=model,
