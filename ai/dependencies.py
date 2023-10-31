@@ -12,12 +12,17 @@ dotenv.load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 openai.organization = os.getenv("OPENAI_ORG")
 
-dry_run = True
+def cost_estimator(num_tokens, model_price):
+    return f"~$ {str(num_tokens * model_price) } USD"
+    
+gpt_costs = {
+    "gpt-3.5-turbo": 0.0015 / 1000, # price per 1K tokens
+    "gpt-4": 0.006 / 1000,
+}
 
-async def chat_completion(prompt, model="gpt-3.5-turbo"):
+async def chat_completion(prompt, model="gpt-3.5-turbo", dry_run=False):
     if dry_run:
-        # len of encode prompt * 0.0015 / 1K tokens (3.5-turbo pricing)
-        return f"~ ${str(len(enc.encode(prompt)) * (0.0015 / 1000))} USD"
+        return cost_estimator(len(enc.encode(prompt)), gpt_costs[model])
     completion = openai.ChatCompletion.create(
     model=model,
     messages=[
