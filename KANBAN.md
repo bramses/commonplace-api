@@ -1,15 +1,15 @@
 # To Do
 - [ ] Database
-    - [ ] Local Postgres
+    - [x] Local Postgres
     - [ ] Supabase Postgres
 - [ ] Embeddings
     - [ ] OpenAI Embeddings
     - [ ] Sentence Transformers
 - [ ] Transformation
     - [ ] Mistral
-    - [ ] GPT-4
-    - [ ] Transform an existing quote and cache it optionally also be able to edit the text in the transformation
-    - [ ] A base schema for transformations to return
+    - [x] GPT-4
+    - [x] Transform an existing quote and cache it optionally also be able to edit the text in the transformation
+    - [x] A base schema for transformations to return
         Off the top of my head I'm thinking that most transformations will return text (or a url). But tags returns an array of strings...I could always just split the string on a delimiter and return an array of strings. I think that's the way to go.
         As long as it has a text representation, it can be transformed by a LLM.
     - [ ] A error message if the transformation fails or if the source material overwhelms context window
@@ -51,11 +51,19 @@
         An example of a highlight = "This is a good quote"
         Both can be vectorized, transformed, and explored. Both can be expanded upon. I can use a type field to differentiate between the two.
     - [ ] Ingesting Images
-        - [ ] Cloudflare Image URL
+        - [x] Cloudflare Image URL
         - [ ] rembg (https://github.com/danielgatis/rembg)
     - [ ] Add Margin Note to existing Highlight
 - [ ] Error Handling
-- [ ] Logging
+- [x] Logging
+- [ ] Authentication
+    - [ ] Discord
+    - [ ] Google
+    - [ ] Twitter
+    - [ ] Github
+    - [ ] Email
+- [ ] Deployment
+- [ ] Testing
 
 # In Progress
 

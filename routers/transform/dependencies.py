@@ -81,8 +81,6 @@ def append_to_version_history(highlight, endpoint, text):
             break
     return highlight
 
-# --> IM EATING <--
-
 async def update_highlight_by_id(id: str, prompt: str, endpoint: str, body: TextModel = Body(...)):
     highlight = get_mock_highlight(id) # get highlight from db eventually
     
