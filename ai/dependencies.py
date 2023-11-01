@@ -13,7 +13,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 openai.organization = os.getenv("OPENAI_ORG")
 
 def cost_estimator(num_tokens, model_price):
-    return f"~$ {str(num_tokens * model_price) } USD"
+    return f"DRY RUN ESTIMATED COST: ~$ {str(num_tokens * model_price) } USD"
     
 gpt_costs = {
     "gpt-3.5-turbo": 0.0015 / 1000, # price per 1K tokens
@@ -49,3 +49,16 @@ async def embed_text(text):
 
 
     return (completion.data[0].embedding)
+
+def send_messages(messages):
+    return openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        stream=True,
+        stop=["Client:"]
+    )
+
+def arr_to_system_message(arr):
+    # convert array of strings to array of objects with role: system and content: string
+    return [{"role": "system", "content": x} for x in arr]
+        

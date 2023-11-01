@@ -15,7 +15,8 @@ async def transform_question(body: TextModel = Body(...)):
 
     return {
         "text": text,
-        "created_at": humanize_now() 
+        "created_at": humanize_now() ,
+        "visible": True,
     }
 
 @transform_router.post("/tldr/{id}")

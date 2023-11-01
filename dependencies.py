@@ -2,6 +2,8 @@ from typing import Annotated
 import httpx
 from fastapi import Header, HTTPException
 from datetime import datetime
+from fastapi.templating import Jinja2Templates
+
 
 
 def get_host():
@@ -27,3 +29,6 @@ def get_now():
 
 def humanize_now():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def get_templates():
+    return Jinja2Templates(directory="templates")

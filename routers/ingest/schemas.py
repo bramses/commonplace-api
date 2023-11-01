@@ -56,7 +56,7 @@ class Highlight(BaseModel):
             "example": {
                 "highlight": "The greatest use of a life is to spend it on something that will outlast it.",
                 "source": {"article": { "url": "https://www.brainyquote.com/quotes/william_james_101063", "author": "William James", "title": "William James - The greatest use of a life is to spend it...", "anchor": None }},
-                "transformations": ["tldr", "question", "image"],
+                "transformations": ["tldr", "question"],
                 "published": True,
                 "id": "5f8a9b3b9d9d9d9d9d9d9d9d",
                 "margin_notes": ["This is a margin note", "This is another margin note with a url https://www.google.com"]

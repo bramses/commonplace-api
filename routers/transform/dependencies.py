@@ -34,7 +34,7 @@ def get_mock_highlight(id: str):
         "endpoint": "/transform/tldr",
         "version_history": [
           {
-            "text": "~ $4.05e-05 USD",
+            "text": "spend life building.",
             "created_at": "2023-10-30 23:28:58"
           }
         ],
@@ -44,7 +44,7 @@ def get_mock_highlight(id: str):
         "endpoint": "/transform/question",
         "version_history": [
           {
-            "text": "~ $0.000171 USD",
+            "text": "what is the best way to spend your life?",
             "created_at": "2023-10-30 23:28:58"
           }
         ],
@@ -77,7 +77,10 @@ def get_mock_highlight(id: str):
 def append_to_version_history(highlight, endpoint, text):
     for transformation in highlight["meta"]["transformations"]:
         if transformation["endpoint"] == endpoint:
-            transformation["version_history"].insert(0, {"text": text, "created_at": humanize_now()})
+            transformation["version_history"].insert(0, {"text": text, "created_at": humanize_now(), "visible": True})
+            # change all other versions to not visible
+            for version in transformation["version_history"][1:]:
+                version["visible"] = False
             break
     return highlight
 

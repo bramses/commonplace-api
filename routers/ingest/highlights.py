@@ -4,13 +4,12 @@ from .schemas import Highlight, SourceType, Source
 import uuid
 from log.gpterr import gpt_error
 import asyncio
-
-from log.dependencies import setup_logger
-logger = setup_logger(__name__)
-
 from .dependencies import router as ingest_router, derive_source_type_from_source, process_transformation
 from dependencies import get_client, humanize_now
 from ai.dependencies import embed_text
+
+from log.dependencies import setup_logger
+logger = setup_logger(__name__)
 
 
 @ingest_router.post("/highlight")
@@ -40,7 +39,7 @@ async def add_highlight(highlight: Highlight, client: AsyncClient = Depends(get_
         processed_highlight["meta"]["transformations"] = await asyncio.gather(*tasks)
     
     if highlight.margin_notes is not None:
-        processed_highlight["meta"]["margin_notes"] = [{"text": margin_note, "created_at": humanize_now()} for margin_note in highlight.margin_notes]
+        processed_highlight["meta"]["margin_notes"] = [{"text": margin_note, "created_at": humanize_now(), "id": uuid.uuid4(), "in_reply_to": None} for margin_note in highlight.margin_notes]
 
 
     if highlight.source is not None:
