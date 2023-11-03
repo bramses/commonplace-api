@@ -13,6 +13,7 @@
         Off the top of my head I'm thinking that most transformations will return text (or a url). But tags returns an array of strings...I could always just split the string on a delimiter and return an array of strings. I think that's the way to go.
         As long as it has a text representation, it can be transformed by a LLM.
     - [ ] A error message if the transformation fails or if the source material overwhelms context window
+    - [ ] dry run and text? figure out a new key perhaps
 - [ ] Explore
     - [ ] How will exploring be done outside Discord and its buttons async calls writing etc
     - [ ] Cosine Similarity

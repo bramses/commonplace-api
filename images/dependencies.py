@@ -5,6 +5,8 @@ import aiofiles
 from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
+from log.dependencies import setup_logger
+logger = setup_logger(__name__)
 
 async def save_img_from_url(url):
     try:
@@ -77,8 +79,11 @@ async def upload_to_cloudflare(filename, file=None, heic_buffer=None):
             response = await client.post(
                 "https://api.cloudflare.com/client/v4/accounts/81f991621b293527970f6b95fd1e3c52/images/v1",
                 files=files,
-                headers=headers
+                headers=headers,
+                timeout=60
             )
+
+            logger.debug(response)
 
         return extract_url(response.json())
 

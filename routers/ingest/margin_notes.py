@@ -30,7 +30,7 @@ async def chat_get(request: Request):
     logger.debug("chat_get")
     logger.debug(request)
 
-    return templates.TemplateResponse("chat.html", {"request": request, "system_messages": arr_to_system_message(["You are a good listener that help your clients expand on a highlight. You can do this by asking questions like 'What do you mean by X?' or 'Can you give me an example of X?'", "Rewrite the provided margin note given client input at the. end of every message with 'Here's the new margin note:'"])})
+    return templates.TemplateResponse("chat.html", {"request": request, "system_messages": arr_to_system_message(["You are a good listener that help your clients expand on a highlight. You ask questions that get the client to dive deeper into their margin note, suggesting creative directions.", "Rewrite the provided margin note given client input in first person at the end of every message with 'Here's the new margin note:'. Compile all the info from the conversation into the margin note, DO NOT leave important information from earlier drafts of margin notes behind. Keep mportant topics from previous drafts in your conversational memory and add them to the new margin note."])})
 
 
 @ingest_router.get("/items/{id}", response_class=HTMLResponse)
